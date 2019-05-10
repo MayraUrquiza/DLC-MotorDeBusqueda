@@ -4,6 +4,9 @@
     Author     : mayur
 --%>
 
+<%@page import="Serializacion.VocabularioWriter"%>
+<%@page import="Serializacion.VocabularioReader"%>
+<%@page import="Vocabulario.Vocabulario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,8 +17,26 @@
         <link href="css/layout.css" rel="stylesheet" type="text/css" />
     </head>
     <body id="content">
+        <%
+            session = request.getSession(true);
+            Vocabulario v;
+            try
+            {
+                VocabularioReader vr = new VocabularioReader("vocabulario.dat");
+                v = vr.read();
+                System.out.println("vocabulario cargado.");
+            }
+            catch (Exception ex)
+            {
+                v = new Vocabulario();
+                v.agregarCarpeta();
+                VocabularioWriter vw = new VocabularioWriter();
+                vw.write(v);
+            }
+            session.setAttribute("vocabulario", v);
+        %>
         <div id="search">
-            <jsp:include page="header.jsp"/>
+            <jsp:include page="busqueda.jsp"/>
         </div>
         
         <footer>

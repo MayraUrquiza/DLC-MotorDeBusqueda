@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <form class="container" action="ControladorPaginaPrincipal" method="get">
+        <form class="container" action="CtrlBusqueda" method="get">
             <div class="valign-wrapper">
                 <input  id="input" type="text" name="busqueda" placeholder="Ingrese criterio a buscar." style="color: white">
                 <button id="button" type="submit" class="btn-floating btn-large waves-effect waves-light">

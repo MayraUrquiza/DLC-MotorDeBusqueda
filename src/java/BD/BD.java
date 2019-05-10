@@ -1,9 +1,13 @@
 package BD;
 
+import Busqueda.Documento;
+import Vocabulario.Termino;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,7 +24,7 @@ import javax.swing.JOptionPane;
  */
 public class BD 
 {
-    public static String servidor = "jdbc:mysql://localhost:3306/DLC_Posteo";
+    public static String servidor = "jdbc:mysql://localhost:3306/DLC-Posteo";
     public static String user = "root";
     public static String pass = "";
     
@@ -32,19 +36,16 @@ public class BD
         
     }
     
-    public void MySQLConnection() throws Exception 
+    public void openConnection() throws Exception 
     {
         try 
         {
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = (Connection) DriverManager.getConnection(this.servidor, this.user, this.pass);
-            JOptionPane.showMessageDialog(null, "Se ha iniciado la conexión con el servidor de forma exitosa");
+            conexion = (Connection) DriverManager.getConnection(BD.servidor, BD.user, BD.pass);
+//            JOptionPane.showMessageDialog(null, "Se ha iniciado la conexión con el servidor de forma exitosa");
+            System.out.println("Conexión iniciada.");
         } 
-        catch (ClassNotFoundException ex) 
-        {
-            Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (SQLException ex) 
+        catch (ClassNotFoundException | SQLException ex) 
         {
             Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,7 +56,8 @@ public class BD
         try 
         {
             conexion.close();
-            JOptionPane.showMessageDialog(null, "Se ha finalizado la conexión con el servidor");
+//            JOptionPane.showMessageDialog(null, "Se ha finalizado la conexión con el servidor");
+            System.out.println("Conexión finalizada.");
         } 
         catch (SQLException ex) 
         {
@@ -63,11 +65,11 @@ public class BD
         }
     }
      
-    public void insertData(String table, String palabra, String documento, int frecuencia) 
+    public void insertData(String tabla, String palabra, String documento, int frecuencia) 
     {
         try 
         {
-            String query = "INSERT INTO " + table + " VALUES("
+            String query = "INSERT INTO " + tabla + " VALUES("
                     + "\"" + palabra + "\", "
                     + "\"" + documento + "\", "
                     + "\"" + frecuencia + "\")";
@@ -83,17 +85,69 @@ public class BD
         }
     } 
     
-    public void loadData(String dataFile, String table)
+    public void loadData(String dataFile, String tabla)
     {
         try 
         {
-            String query = "LOAD DATA LOCAL INFILE '" + dataFile + "' INTO TABLE " + table + " FIELDS TERMINATED BY \',\'";
+            String query = "LOAD DATA LOCAL INFILE '" + dataFile + "' INTO TABLE " + tabla + " FIELDS TERMINATED BY \',\'";
             Statement st = (Statement) conexion.createStatement();
             st.executeUpdate(query);
+            JOptionPane.showMessageDialog(null, "Se cargó el posteo en la base de datos.");
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "No se pudo cargar el posteo en la base de datos.");
+        } 
+    }
+    
+    public ArrayList selectData(Termino t, int R, int N)
+    {
+        ArrayList<Documento> resultados = new ArrayList<>();
+        if(t != null)
+        {
+            try
+            {
+                String query = "SELECT documento, frecuencia FROM palabraXDocumento WHERE palabra = '" + t.getPalabra() +"' ORDER BY frecuencia DESC LIMIT " + R;
+                Statement st = (Statement) conexion.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next())
+                {
+                    String documento = rs.getString("documento");
+                    int frecuencia = rs.getInt("frecuencia");
+                    Documento doc = new Documento(documento);
+                    doc.calcularPeso(t, N, frecuencia);
+//                    double peso = doc.getPeso();
+                    resultados.add(doc);
+//                    System.out.println(doc.getNombre());
+//                    System.out.println(t.getPalabra()); //después sacar esto
+//                    System.out.println("N: " + N);
+//                    System.out.println("Documentos en los que aparece: " + t.getNroDocumentos());
+//                    System.out.println("Frecuencia: " + frecuencia);
+                }
+            }
+            catch(SQLException ex)
+            {
+                System.out.println("No se pudo realizar la consulta.");
+            }
+        }
+        return resultados;
+    }
+    
+    public int getCantidadDeDocumentos(String tabla)
+    {
+        int cantidad = 0;
+        try 
+        {
+            String query = "SELECT DISTINCT documento FROM " + tabla + " WHERE documento LIKE '%.txt'";
+            Statement st = (Statement) conexion.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            rs.last();
+            cantidad = rs.getRow();
         } 
         catch (SQLException ex) 
         {
             Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return cantidad;
     }
 }

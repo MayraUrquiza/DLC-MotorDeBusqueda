@@ -16,11 +16,13 @@
     </head>
     <body id="content">
         <header id="header">
-            <jsp:include page="header.jsp"/>
+            <jsp:include page="busqueda.jsp"/>
         </header>
 
-        <c:forEach var="tempArchivos" items="${resultados}">
-            <a href="">${tempArchivos}</a><br>
+        <c:forEach items="${documentos}" var="doc">
+            <tr>
+                <td><a href="">${doc}</a><br></td>
+            </tr>
         </c:forEach>
         
         <footer>
