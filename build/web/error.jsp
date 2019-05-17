@@ -19,11 +19,11 @@
         </header>
 
         <main>
-            <h5 class="center" style="color: white">No se encontraron resultados para ${busqueda}</h5>
+            <h5 class="center" style="color: white">No se encontraron resultados para "${busqueda}"</h5>
         </main>
         
         <footer id="footer">
-            <span class="copyright">&copy; DLC 2019 UTN FRC</a>.</span>
+            <span style="color: white" class="copyright">&copy; DLC 2019 UTN FRC</a>.</span>
         </footer>
     </body>
 </html>

@@ -8,10 +8,13 @@ import Serializacion.VocabularioWriter;
 import Vocabulario.Termino;
 import Vocabulario.Vocabulario;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,11 +36,45 @@ public class CargarPosteoYVocabulario
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws FileNotFoundException
     {
-        Vocabulario v;
+        FilenameFilter filter = new FilenameFilter() //creo un filtro para archivos .txt
+        {
+            public boolean accept(File dir, String fileName)
+            {
+                return fileName.endsWith("txt");
+            }
+        };
+
+        File f = new File("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\DocumentosTP1");
+        String [] archivos = f.list(filter);        
+        ArrayList<String> contenido = new ArrayList<>();
+        
+        if(archivos != null)
+        {
+            for(int i = 0; i < archivos.length; i++)
+            {
+                if(archivos[i].equals("prtrt10.txt"))
+                {
+                    try (Scanner sc = new Scanner(new File(f.toString() + "\\" + archivos[i]))) 
+                    {
+                        while(sc.hasNextLine())
+                        {
+                            contenido.add(sc.nextLine());
+                        }
+                    }
+                }
+            }
+        }
+        for (String linea: contenido)
+        {
+            System.out.println(linea);
+        }
+        
+        
+//        Vocabulario v;
 //        v = primeraCarga();
-        v = recuperarVocabulario();
+//        v = recuperarVocabulario();
 //        agregarDocumentoPosteo(v);
         
 //        ArrayList<String> voc = v.obtenerVocabulario(v);

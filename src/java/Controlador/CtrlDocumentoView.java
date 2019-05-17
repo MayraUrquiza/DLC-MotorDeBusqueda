@@ -60,6 +60,7 @@ public class CtrlDocumentoView extends HttpServlet {
                     {
                         while(sc.hasNextLine())
                         {
+                            sb.append("\n");
                             sb.append(sc.nextLine());
                         }
                     }

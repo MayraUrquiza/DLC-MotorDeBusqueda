@@ -20,6 +20,7 @@
 
 	#header {
 		opacity: 1 !important;
+                font-weight: bold;
 	}
 
 		#header nav li {

@@ -21,7 +21,7 @@
         </header>
 
         <main>
-            <table class="striped">
+            <table>
                 <thead>
                     <tr>
                         <th>DOCUMENTO</th>
@@ -45,7 +45,7 @@
         </main>
         
         <footer id="footer">
-            <span class="copyright">&copy; DLC 2019 UTN FRC</a>.</span>
+            <span style="color: white" class="copyright">&copy; DLC 2019 UTN FRC</a>.</span>
         </footer>
     </body>
 </html>

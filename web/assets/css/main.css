@@ -539,6 +539,7 @@ input, select, textarea {
 		top: -1em;
 		vertical-align: middle;
 		width: 90%;
+                font-weight: bold;
 	}
 
 		#header h1 {

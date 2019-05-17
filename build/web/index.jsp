@@ -19,7 +19,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/materialize.css" type="text/css">
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link href="assets/css/layout.css" rel="stylesheet" type="text/css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
 
@@ -43,35 +42,7 @@
         }
         session.setAttribute("vocabulario", v);
     %>
-    <div id="wrapper">
-        <div id="bg"></div>
-        <div id="overlay"></div>
-        <div id="main">
-
-            <!-- Header -->
-            <header id="header">
-                <h1>DLC Buscador Vectorial</h1>
-                <jsp:include page="busqueda.jsp"/>
-            </header>
-
-            <!-- Footer -->
-            <footer id="footer">
-                <span class="copyright">&copy; DLC 2019 UTN FRC</a>.</span>
-            </footer>
-
-        </div>
-    </div>
-    <script>
-        window.onload = function() {
-            document.body.classList.remove('is-preload');
-        }
-        window.ontouchmove = function() {
-            return false;
-        }
-        window.onorientationchange = function() {
-            document.body.scrollTop = 0;
-        }
-    </script>
+    <jsp:include page="principal.jsp"/>
 </body>
 
 </html>

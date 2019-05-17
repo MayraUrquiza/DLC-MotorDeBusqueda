@@ -75,6 +75,7 @@ public class Buscador
        
     public void agregarDocumentos()
     {
+        this.ordenarPalabrasBuscadas();
         ArrayList<Documento> docs = new ArrayList<>();
         ArrayList<Documento> buscados;
         for (int i = 0; i < busqueda.size(); i++)
@@ -121,6 +122,11 @@ public class Buscador
 //            System.out.println(d.getNombre() + " - Peso: " + d.getPeso());
 //        }
 //    }
+    
+    private void ordenarPalabrasBuscadas()
+    {
+        if(!busqueda.contains(null))Collections.sort(busqueda);
+    }
     
     private LinkedHashMap<String, Documento> ordenarPorRelevancia() 
     {

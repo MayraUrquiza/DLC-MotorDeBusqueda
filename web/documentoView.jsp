@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="assets/css/materialize.css" type="text/css">
         <link href="assets/css/layout.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
-        <p>${contenido}</p>
+    <body id="view">
+        <pre class="center" style="font-size: large">${contenido}</pre>
     </body>
 </html>
