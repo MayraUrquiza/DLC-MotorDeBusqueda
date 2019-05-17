@@ -13,7 +13,6 @@ root {
 }
 
 #header {
-    background-color: #006064;
     height: 120px;
 }
 
@@ -25,6 +24,7 @@ root {
 
 #input {
     margin-top: 40px;
+    font-weight: bold;
 }
 
 #button {
@@ -33,14 +33,13 @@ root {
 }
 
 #content {
-    background-color: #006064;
-/*    background: url(https://www.thenaturaladventure.com/wp-content/uploads/2017/12/fairy-trails-of-cappadocia.jpg);
-    background-size: cover;*/
+    background: url("../css/images/bbg.jpg");
+    background-size: inherit;
     height: 100%;
 }
 
 #footer {
-    background-color: #E57373;
+    background-color: transparent;
     height: 30px;
     width: 100%;
     text-align: center;

@@ -40,11 +40,11 @@ public class CargarPosteoYVocabulario
         v = recuperarVocabulario();
 //        agregarDocumentoPosteo(v);
         
-        ArrayList<String> voc = v.obtenerVocabulario(v);
-        for (String entrada : voc)
-        {
-            System.out.println(entrada + "\n");
-        }
+//        ArrayList<String> voc = v.obtenerVocabulario(v);
+//        for (String entrada : voc)
+//        {
+//            System.out.println(entrada + "\n");
+//        }
 
 //        String cadena = " SELDOME stopes.";
 //        StringTokenizer st = new StringTokenizer(cadena, "\"’,.-_+&<>``={}~^@/()[]%'*$|°[0-1-2-3-4-5-6-7-8-9]#:*»«?¡!¿; \n");
@@ -133,7 +133,7 @@ public class CargarPosteoYVocabulario
         {
             v = vr.read();
             JOptionPane.showMessageDialog(null, "Hashtable recuperada corretamente.");
-//            System.out.println(v.toString());
+            System.out.println(v.toString());
         }
         catch (VocabularioIOException ex)
         {

@@ -11,22 +11,41 @@
     <head>
         <title>Resultados de la búsqueda</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="css/materialize.css" type="text/css">
-        <link href="css/layout.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="assets/css/materialize.css" type="text/css">
+        <link href="assets/css/layout.css" rel="stylesheet" type="text/css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     </head>
     <body id="content">
         <header id="header">
             <jsp:include page="busqueda.jsp"/>
         </header>
 
-        <c:forEach items="${documentos}" var="doc">
-            <tr>
-                <td><a href="">${doc}</a><br></td>
-            </tr>
-        </c:forEach>
+        <main>
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>DOCUMENTO</th>
+                        <th>PESO</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <c:forEach items="${documentos}" var="doc">
+                        <tr>
+                            <td><a style="color: white; font-weight: bold" href="CtrlDocumentoView?documento=${doc.nombre}">${doc.nombre}</a></td>
+                            <td style="color: white; font-weight: bold">${doc.peso}</td>
+                        </tr>
+                    </c:forEach>
+                        <tr>
+                            <td><br></td>
+                            <td><br></td>
+                        </tr>
+                </tbody>
+            </table>
+        </main>
         
-        <footer>
-            <jsp:include page="footer.jsp"/>
+        <footer id="footer">
+            <span class="copyright">&copy; DLC 2019 UTN FRC</a>.</span>
         </footer>
     </body>
 </html>

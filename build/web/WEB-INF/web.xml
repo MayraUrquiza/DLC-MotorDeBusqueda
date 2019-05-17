@@ -4,13 +4,24 @@
         <servlet-name>CtrlBusqueda</servlet-name>
         <servlet-class>Controlador.CtrlBusqueda</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CtrlDocumentoView</servlet-name>
+        <servlet-class>Controlador.CtrlDocumentoView</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CtrlBusqueda</servlet-name>
         <url-pattern>/CtrlBusqueda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CtrlDocumentoView</servlet-name>
+        <url-pattern>/CtrlDocumentoView</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

@@ -5,15 +5,13 @@
  */
 package Controlador;
 
-import Busqueda.Buscador;
-import Busqueda.Documento;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mayur
  */
-@WebServlet(name = "ControladorPaginaPrincipal", urlPatterns = {"/ControladorPaginaPrincipal"})
-public class CtrlPaginaPrincipal extends HttpServlet {
+public class CtrlDocumentoView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,28 +34,47 @@ public class CtrlPaginaPrincipal extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        String busqueda = request.getParameter("busqueda");
-        StringTokenizer st = new StringTokenizer(busqueda, "\"’,.-_+&<>``={}~^@/()[]%'*$|°[0-1-2-3-4-5-6-7-8-9]#:*»«?¡!¿; \n");
-        ArrayList<String> palabrasBuscadas = new ArrayList<>();
-        while(st.hasMoreTokens())
-        {
-            String p = st.nextToken().toLowerCase();
-            palabrasBuscadas.add(p);
-        }
-        Buscador.agregarDocumentos();
-        HashMap<String, Documento> documentos = Buscador.getDocumentos();
+        String dest = "/error.jsp";
         
-        ArrayList<String> docs = new ArrayList<>();
-        ArrayList<Double> pesos = new ArrayList<>();
-        for (String documento : documentos.keySet())
+        String doc = request.getParameter("documento");
+        
+        FilenameFilter filter = new FilenameFilter() //creo un filtro para archivos .txt
         {
-            docs.add(documento);
-            pesos.add(documentos.get(documento).getPeso());
-        }
+            public boolean accept(File dir, String fileName)
+            {
+                return fileName.endsWith("txt");
+            }
+        };
 
-        request.setAttribute("documentos", docs);
-        request.setAttribute("pesos", pesos);
-        RequestDispatcher dis = request.getRequestDispatcher("resultados.jsp");
+        File f = new File("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\DocumentosTP1");
+        String [] archivos = f.list(filter);
+        StringBuilder sb = new StringBuilder("");
+        
+        if(archivos != null)
+        {
+            for(int i = 0; i < archivos.length; i++)
+            {
+                if(archivos[i].equals(doc))
+                {
+                    try (Scanner sc = new Scanner(new File(f.toString() + "\\" + archivos[i]))) 
+                    {
+                        while(sc.hasNextLine())
+                        {
+                            sb.append(sc.nextLine());
+                        }
+                    }
+                }
+            }
+        }
+        
+        if(!(sb.toString().equals("")))
+        {
+            request.setAttribute("contenido", sb.toString());
+            request.setAttribute("titulo", doc);
+            dest = "/documentoView.jsp";
+        }
+        ServletContext app = this.getServletContext();
+        RequestDispatcher dis = app.getRequestDispatcher(dest);
         dis.forward(request, response);
     }
 

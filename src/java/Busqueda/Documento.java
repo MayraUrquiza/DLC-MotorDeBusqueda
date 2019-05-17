@@ -25,7 +25,7 @@ public class Documento implements Comparable
     
     public Documento(String nombre)
     {
-        String ruta = "C:\\Users\\mayur\\Desktop\\DocumentosTP1\\";
+        String ruta = "DocumentosTP1\\";
         this.nombre = nombre;
         this.documento = new File(ruta + nombre);
         this.peso = 0.0;

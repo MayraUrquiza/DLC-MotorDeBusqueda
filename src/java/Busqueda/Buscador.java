@@ -2,18 +2,16 @@ package Busqueda;
 
 
 import BD.BD;
-import Serializacion.VocabularioIOException;
-import Serializacion.VocabularioReader;
 import Vocabulario.Termino;
 import Vocabulario.Vocabulario;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,31 +23,38 @@ import javax.swing.JOptionPane;
  *
  * @author mayur
  */
-public abstract class Buscador 
+public class Buscador 
 {
    
-    private static final ArrayList<Termino> busqueda = new ArrayList<>();
-    private static int N; // Cantidad total de documentos en la base
-    private static int R = 25; // Cantidad de documentos que interesan
-    private static HashMap<String, Documento> documentos = new HashMap<>();
+    private final ArrayList<Termino> busqueda = new ArrayList<>();
+    private int N; // Cantidad total de documentos en la base
+    private int R = 25; // Cantidad de documentos que interesan
+    private HashMap<String, Documento> documentos = new HashMap<>();
     
-    public static ArrayList getResultados(ArrayList<String> lista, Vocabulario v) 
+    public Buscador(ArrayList<String> lista, Vocabulario v)
     {
-        Buscador.buscarTerminos(lista, v);
-        return busqueda;
+        this.buscarTerminos(lista, v);
     }
     
-    private static void buscarTerminos(ArrayList<String> lista, Vocabulario v)
+//    public ArrayList getResultados(ArrayList<String> lista, Vocabulario v) 
+//    {
+//        this.buscarTerminos(lista, v);
+//        return busqueda;
+//    }
+    
+    private void buscarTerminos(ArrayList<String> lista, Vocabulario v)
     {
-        for (String palabra : lista) 
+        if (lista != null)
         {
-            busqueda.add(v.get(palabra));
+            for (String palabra : lista) 
+            {
+                busqueda.add(v.get(palabra));
+            }
         }
     }    
     
-    public static ArrayList<Documento> buscarDocumentos(Termino t)
+    private ArrayList<Documento> buscarDocumentos(Termino t)
     {
-        ordenarPalabrasBuscadas();
         BD posteo = new BD();
         ArrayList<Documento> docs = new ArrayList<>();
         try 
@@ -68,14 +73,14 @@ public abstract class Buscador
         return docs;
     }
        
-    public static void agregarDocumentos()
+    public void agregarDocumentos()
     {
         ArrayList<Documento> docs = new ArrayList<>();
         ArrayList<Documento> buscados;
         for (int i = 0; i < busqueda.size(); i++)
         {
             Termino t = busqueda.get(i);
-            buscados = buscarDocumentos(t);
+            buscados = this.buscarDocumentos(t);
             if(buscados != null)
             {
                 for(Documento d : buscados)
@@ -105,56 +110,60 @@ public abstract class Buscador
                 break;
             }
         }
-        ordenarPorRelevancia();
     }
     
-    public static void mostrarResultados()
+//    public void mostrarResultados()
+//    {
+//        System.out.println("DOCUMENTOS: \n");
+//        for(Iterator i = documentos.keySet().iterator(); i.hasNext();)
+//        {
+//            Documento d = (Documento) documentos.get((String)i.next());
+//            System.out.println(d.getNombre() + " - Peso: " + d.getPeso());
+//        }
+//    }
+    
+    private LinkedHashMap<String, Documento> ordenarPorRelevancia() 
     {
-        System.out.println("DOCUMENTOS: \n");
-        for(Iterator i = documentos.keySet().iterator(); i.hasNext();)
+        List<Documento> mapValues = new ArrayList<>(documentos.values());
+        Collections.sort(mapValues);
+
+        LinkedHashMap<String, Documento> sortedMap = new LinkedHashMap<>();
+        Iterator<Documento> it = mapValues.iterator();
+        while (it.hasNext())
         {
-            Documento d = (Documento) documentos.get((String)i.next());
-            System.out.println(d.getNombre() + " - Peso: " + d.getPeso());
+            Documento doc = it.next();
+            sortedMap.put(doc.getNombre(), doc);
         }
-    }
-    
-    private static void ordenarPalabrasBuscadas()
-    {
-        if(!busqueda.contains(null))Collections.sort(busqueda);
-    }
-    
-    private static void ordenarPorRelevancia()
-    {
-        documentos.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(System.out::println);
+        return sortedMap;
     }
 
-    public static int getN() 
+    public int getN() 
     {
         return N;
     }
 
-    public static void setN(int N) 
+    public void setN(int N) 
     {
-        Buscador.N = N;
+        this.N = N;
     }
 
-    public static int getR() 
+    public int getR() 
     {
         return R;
     }
 
-    public static void setR(int R) 
+    public void setR(int R) 
     {
-        Buscador.R = R;
+        this.R = R;
     }
 
-    public static HashMap<String, Documento> getDocumentos() 
+    public LinkedHashMap<String, Documento> getDocumentos() 
     {
-        return documentos;
+        return this.ordenarPorRelevancia();
     }
 
-    public static void setDocumentos(HashMap<String, Documento> documentos) 
+    public void setDocumentos(HashMap<String, Documento> documentos) 
     {
-        Buscador.documentos = documentos;
+        this.documentos = documentos;
     }
 }

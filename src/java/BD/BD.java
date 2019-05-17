@@ -42,7 +42,6 @@ public class BD
         {
             Class.forName("com.mysql.jdbc.Driver");
             conexion = (Connection) DriverManager.getConnection(BD.servidor, BD.user, BD.pass);
-//            JOptionPane.showMessageDialog(null, "Se ha iniciado la conexión con el servidor de forma exitosa");
             System.out.println("Conexión iniciada.");
         } 
         catch (ClassNotFoundException | SQLException ex) 
@@ -64,26 +63,6 @@ public class BD
             Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
-    public void insertData(String tabla, String palabra, String documento, int frecuencia) 
-    {
-        try 
-        {
-            String query = "INSERT INTO " + tabla + " VALUES("
-                    + "\"" + palabra + "\", "
-                    + "\"" + documento + "\", "
-                    + "\"" + frecuencia + "\")";
-            Statement st = (Statement) conexion.createStatement();
-            st.executeUpdate(query);
-//            System.out.println("Datos almacenados");
-//            JOptionPane.showMessageDialog(null, "Datos almacenados de forma exitosa");
-        } 
-        catch (SQLException ex) 
-        {
-//            System.out.println("Error");
-//            JOptionPane.showMessageDialog(null, "Error en el almacenamiento de datos");
-        }
-    } 
     
     public void loadData(String dataFile, String tabla)
     {
@@ -116,13 +95,7 @@ public class BD
                     int frecuencia = rs.getInt("frecuencia");
                     Documento doc = new Documento(documento);
                     doc.calcularPeso(t, N, frecuencia);
-//                    double peso = doc.getPeso();
                     resultados.add(doc);
-//                    System.out.println(doc.getNombre());
-//                    System.out.println(t.getPalabra()); //después sacar esto
-//                    System.out.println("N: " + N);
-//                    System.out.println("Documentos en los que aparece: " + t.getNroDocumentos());
-//                    System.out.println("Frecuencia: " + frecuencia);
                 }
             }
             catch(SQLException ex)

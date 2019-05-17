@@ -9,16 +9,14 @@ import Busqueda.Buscador;
 import Busqueda.Documento;
 import Vocabulario.Termino;
 import Vocabulario.Vocabulario;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.StringTokenizer;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,9 +40,10 @@ public class CtrlBusqueda extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        HttpSession sesion = request.getSession();
-        Vocabulario v = (Vocabulario) sesion.getAttribute("vocabulario");
-        ArrayList<String> voc = v.obtenerVocabulario(v);
+        String dest = "/error.jsp";
+        
+        HttpSession session = request.getSession(true);
+        Vocabulario v = (Vocabulario) session.getAttribute("vocabulario");
         
         String busqueda = request.getParameter("busqueda");
         StringTokenizer st = new StringTokenizer(busqueda, "\"’,.-_+&<>``={}~^@/()[]%'*$|°[0-1-2-3-4-5-6-7-8-9]#:*»«?¡!¿; \n");
@@ -54,37 +53,30 @@ public class CtrlBusqueda extends HttpServlet {
             String p = st.nextToken().toLowerCase();
             palabrasBuscadas.add(p);
         }
-        //hasta acá bien, palabrasBuscadas se puede mostrar en jsp
         
-        ArrayList<Termino> terminos = Buscador.getResultados(palabrasBuscadas, v);
-        //prueba
-        ArrayList<String> terms = new ArrayList<>();
-        for (Termino t : terminos)
-        {
-            if(t != null)System.out.println(t.getPalabra());
-            if(t != null)terms.add(t.getPalabra());
-        }
-        //
+        Buscador buscador = new Buscador(palabrasBuscadas, v);
         
-        Buscador.agregarDocumentos();
-        HashMap<String, Documento> documentos = Buscador.getDocumentos();
-        //prueba
+        buscador.agregarDocumentos();
+        LinkedHashMap<String, Documento> documentos = buscador.getDocumentos();
         
-        ArrayList<String> docs = new ArrayList<>();
-        ArrayList<Double> pesos = new ArrayList<>();
+        ArrayList<Documento> docs = new ArrayList<>();
         for (Iterator it = documentos.keySet().iterator(); it.hasNext();)
         {
             Documento d = (Documento) documentos.get((String)it.next());
-            System.out.println(d.getNombre() + " - Peso: " + d.getPeso());
-            docs.add(d.getNombre());
-            pesos.add(d.getPeso());
+            docs.add(d);
         }
-        //
 
-        request.setAttribute("documentos", voc);
-        request.setAttribute("pesos", pesos);
+        if(docs.size() > 0)
+        {
+            request.setAttribute("documentos", docs);
+            dest = "/resultados.jsp";
+        }
+        else
+        {
+            request.setAttribute("busqueda", request.getParameter("busqueda"));
+        }
         ServletContext app = this.getServletContext();
-        RequestDispatcher dis = request.getRequestDispatcher("resultados.jsp");
+        RequestDispatcher dis = app.getRequestDispatcher(dest);
         dis.forward(request, response);
     }
 

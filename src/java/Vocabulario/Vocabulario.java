@@ -5,7 +5,6 @@
  */
 package Vocabulario;
 
-import BD.BD;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,8 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 
 /**
  *
@@ -54,9 +51,7 @@ public class Vocabulario implements Serializable
         LectorDocumento l = new LectorDocumento(ruta + archivo); //toma un documento parseado y agrega las palabras a la hashtable
         
         Hashtable<String, Integer> aux = l.palabrasObtenidas();
-//        BD posteo = new BD();
-//        posteo.MySQLConnection();
-        
+
         //probando crear archivo .txt
         FileWriter fichero = new FileWriter(posteo, true);
         PrintWriter pw = new PrintWriter(fichero);
@@ -67,19 +62,11 @@ public class Vocabulario implements Serializable
 
             Termino t = new Termino(palabra, frecuencia);
             this.agregarTermino(t);
-
-            //agrego una entrada a la base de datos por cada palabra que contenga el documento
-//                posteo.insertData("palabraXDocumento", palabra, archivo, frecuencia); //tarda una banda
-
+            
             //probando escribir en archivo .txt
             pw.println(palabra + "," + archivo + "," + frecuencia);
         }
-        
-//        System.out.println("Cargando en base de datos archivo " + archivo);
-//        posteo.loadData("prueba.txt", "palabraXDocumento");
-//        
         System.out.println(archivo);
-//        posteo.closeConnection();
     }
     
     public Termino get(String palabra)
@@ -97,11 +84,6 @@ public class Vocabulario implements Serializable
             }
         };
 
-//        JFileChooser fc = new JFileChooser();
-//        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//        fc.showOpenDialog(new JFrame());
-//        File f = fc.getSelectedFile();
-//        String ruta = f.getAbsolutePath() + "\\";
         File f = new File("DocumentosTP1");
         String [] archivos = f.list(filter);
         
@@ -113,7 +95,6 @@ public class Vocabulario implements Serializable
             }
         }
     }
-
 
     @Override
     public String toString() 
