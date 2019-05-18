@@ -1068,3 +1068,11 @@ input, select, textarea {
 		#header nav {
 			padding: 0 1em;
 		} }
+        
+        #add {
+            left: 5px;
+        }
+        
+        #button {
+            right: 5px;
+        }

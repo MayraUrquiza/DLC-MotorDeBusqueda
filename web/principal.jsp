@@ -30,6 +30,9 @@
                         <button id="button" type="submit" class="btn-floating btn-large waves-effect waves-light">
                             <i class="material-icons">search</i>
                         </button>
+                        <a id="add" href="agregar.jsp" class="btn-floating btn-large waves-effect waves-light">
+                            <i class="material-icons">add</i>
+                        </a>
                     </form>
                 </header>
 

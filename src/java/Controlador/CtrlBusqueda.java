@@ -7,7 +7,6 @@ package Controlador;
 
 import Busqueda.Buscador;
 import Busqueda.Documento;
-import Vocabulario.Termino;
 import Vocabulario.Vocabulario;
 import java.io.IOException;
 import java.util.ArrayList;

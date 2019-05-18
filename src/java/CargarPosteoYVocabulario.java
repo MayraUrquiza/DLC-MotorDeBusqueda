@@ -37,45 +37,11 @@ public class CargarPosteoYVocabulario
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException
-    {
-        FilenameFilter filter = new FilenameFilter() //creo un filtro para archivos .txt
-        {
-            public boolean accept(File dir, String fileName)
-            {
-                return fileName.endsWith("txt");
-            }
-        };
-
-        File f = new File("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\DocumentosTP1");
-        String [] archivos = f.list(filter);        
-        ArrayList<String> contenido = new ArrayList<>();
-        
-        if(archivos != null)
-        {
-            for(int i = 0; i < archivos.length; i++)
-            {
-                if(archivos[i].equals("prtrt10.txt"))
-                {
-                    try (Scanner sc = new Scanner(new File(f.toString() + "\\" + archivos[i]))) 
-                    {
-                        while(sc.hasNextLine())
-                        {
-                            contenido.add(sc.nextLine());
-                        }
-                    }
-                }
-            }
-        }
-        for (String linea: contenido)
-        {
-            System.out.println(linea);
-        }
-        
-        
-//        Vocabulario v;
+    {           
+        Vocabulario v;
 //        v = primeraCarga();
-//        v = recuperarVocabulario();
-//        agregarDocumentoPosteo(v);
+        v = recuperarVocabulario();
+        agregarDocumentoPosteo(v);
         
 //        ArrayList<String> voc = v.obtenerVocabulario(v);
 //        for (String entrada : voc)
@@ -170,7 +136,7 @@ public class CargarPosteoYVocabulario
         {
             v = vr.read();
             JOptionPane.showMessageDialog(null, "Hashtable recuperada corretamente.");
-            System.out.println(v.toString());
+//            System.out.println(v.toString());
         }
         catch (VocabularioIOException ex)
         {
@@ -188,7 +154,7 @@ public class CargarPosteoYVocabulario
         eliminar("agregado.txt");
         try 
         {
-            v.agregarDocumento("DocumentosTP1\\", "00ws110.txt", "agregado.txt");
+            v.agregarDocumento("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\", "prueba.txt", "agregado.txt");
         } 
         catch (Exception ex) 
         {
@@ -196,7 +162,7 @@ public class CargarPosteoYVocabulario
         }
         
         // Serializo el vocabulario con los términos recién agregados
-//        serializar(v);
+        serializar(v);
 
         // Cargo el posteo del nuevo archivo en la base de datos
 //        cargarPosteo("agregado.txt");

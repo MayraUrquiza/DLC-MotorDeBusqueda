@@ -48,7 +48,7 @@ public class Vocabulario implements Serializable
     
     public void agregarDocumento(String ruta, String archivo, String posteo) throws IOException
     {
-        LectorDocumento l = new LectorDocumento(ruta + archivo); //toma un documento parseado y agrega las palabras a la hashtable
+        LectorDocumento l = new LectorDocumento(ruta + archivo); //toma un documento lo parsea y agrega las palabras a la hashtable
         
         Hashtable<String, Integer> aux = l.palabrasObtenidas();
 

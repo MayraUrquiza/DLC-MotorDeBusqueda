@@ -70,3 +70,17 @@ root {
     background-position: center;
     height: 100%;
 }
+
+#textarea {
+    height: 450px;
+    background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.5) 75%);
+    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.5) 75%);
+    background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.5) 75%);
+    background-image: linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.5) 75%);
+    overflow: auto;
+}
+
+#botones {
+    width: 250px;
+    margin: 0 auto;
+}

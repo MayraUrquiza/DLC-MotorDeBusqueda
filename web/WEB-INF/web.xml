@@ -8,6 +8,10 @@
         <servlet-name>CtrlDocumentoView</servlet-name>
         <servlet-class>Controlador.CtrlDocumentoView</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CtrlAgregarDoc</servlet-name>
+        <servlet-class>Controlador.CtrlAgregarDoc</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CtrlBusqueda</servlet-name>
         <url-pattern>/CtrlBusqueda</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>CtrlDocumentoView</servlet-name>
         <url-pattern>/CtrlDocumentoView</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CtrlAgregarDoc</servlet-name>
+        <url-pattern>/CtrlAgregarDoc</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
