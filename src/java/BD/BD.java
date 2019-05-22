@@ -71,11 +71,11 @@ public class BD
             String query = "LOAD DATA LOCAL INFILE '" + dataFile + "' INTO TABLE " + tabla + " FIELDS TERMINATED BY \',\'";
             Statement st = (Statement) conexion.createStatement();
             st.executeUpdate(query);
-            JOptionPane.showMessageDialog(null, "Se cargó el posteo en la base de datos.");
+            System.out.println("Se cargó el posteo en la base de datos.");
         } 
         catch (SQLException ex) 
         {
-            JOptionPane.showMessageDialog(null, "No se pudo cargar el posteo en la base de datos.");
+            System.out.println("No se pudo cargar el posteo en la base de datos.");
         } 
     }
     

@@ -6,6 +6,7 @@
 package Controlador;
 
 import BD.BD;
+import Busqueda.Buscador;
 import Serializacion.VocabularioIOException;
 import Serializacion.VocabularioWriter;
 import Vocabulario.Vocabulario;
@@ -42,7 +43,7 @@ public class CtrlAgregarDoc extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String contenido = request.getParameter("contenido");
         
-        String ruta = "C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\";
+        String ruta = "C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\DocumentosTP1\\";
         String archivo = nombre + ".txt";
 
         try
@@ -100,10 +101,12 @@ public class CtrlAgregarDoc extends HttpServlet {
 
     private void agregarDocumento(Vocabulario v, String ruta, String archivo)
     {
-        this.eliminar("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\agregado.txt");
+        this.eliminar("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\posteo.txt");
         try 
         {
-            v.agregarDocumento(ruta, archivo, "C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\agregado.txt");
+            v.agregarDocumento(ruta, archivo, "C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\posteo.txt");
+            Buscador buscador = new Buscador();
+            buscador.setN(buscador.getN() + 1);
         } 
         catch (IOException ex) 
         {
@@ -114,7 +117,7 @@ public class CtrlAgregarDoc extends HttpServlet {
         this.serializar(v);
 
         // Cargo el posteo del nuevo archivo en la base de datos
-        this.cargarPosteo("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\agregado.txt");
+        this.cargarPosteo("C:\\\\NetBeansProjects\\\\DLC-MotorDeBusqueda\\\\posteo.txt");
     }
     
     private void eliminar(String archivo)
@@ -156,6 +159,8 @@ public class CtrlAgregarDoc extends HttpServlet {
         catch (Exception ex) 
         {
             System.out.println("No se pudo cargar el posteo.");
+            String error = ex.getMessage();
+            System.out.println(error);
         }
         finally
         {

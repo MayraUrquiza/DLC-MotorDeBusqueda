@@ -27,13 +27,18 @@ public class Buscador
 {
    
     private final ArrayList<Termino> busqueda = new ArrayList<>();
-    private int N; // Cantidad total de documentos en la base
+    private int N = 597; // Cantidad total de documentos en la base
     private int R = 25; // Cantidad de documentos que interesan
     private HashMap<String, Documento> documentos = new HashMap<>();
     
     public Buscador(ArrayList<String> lista, Vocabulario v)
     {
         this.buscarTerminos(lista, v);
+    }
+    
+    public Buscador()
+    {
+        
     }
     
 //    public ArrayList getResultados(ArrayList<String> lista, Vocabulario v) 
@@ -60,7 +65,7 @@ public class Buscador
         try 
         {
             posteo.openConnection();
-            docs = posteo.selectData(t, R, 593);
+            docs = posteo.selectData(t, R, N);
         } 
         catch (Exception ex) 
         {

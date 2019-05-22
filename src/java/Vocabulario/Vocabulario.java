@@ -53,7 +53,7 @@ public class Vocabulario implements Serializable
         Hashtable<String, Integer> aux = l.palabrasObtenidas();
 
         //probando crear archivo .txt
-        FileWriter fichero = new FileWriter(posteo, true);
+        FileWriter fichero = new FileWriter("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\" + posteo, true);
         PrintWriter pw = new PrintWriter(fichero);
             
         for (String palabra : aux.keySet()) 
@@ -76,7 +76,7 @@ public class Vocabulario implements Serializable
     
     public void agregarCarpeta() throws FileNotFoundException, Exception
     {
-        FilenameFilter filter = new FilenameFilter() //creo un filtro para archivos .txt
+        FilenameFilter filter = new FilenameFilter() //filtro para archivos .txt
         {
             public boolean accept(File dir, String fileName)
             {
@@ -84,7 +84,7 @@ public class Vocabulario implements Serializable
             }
         };
 
-        File f = new File("DocumentosTP1");
+        File f = new File("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\DocumentosTP1");
         String [] archivos = f.list(filter);
         
         if(archivos != null)
