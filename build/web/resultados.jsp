@@ -26,6 +26,8 @@
                     <tr>
                         <th>DOCUMENTO</th>
                         <th>PESO</th>
+                        <th>PALABRAS QUE APARECEN</th>
+                        <th>CANTIDAD TOTAL DE PALABRAS</th>
                     </tr>
                 </thead>
 
@@ -34,6 +36,8 @@
                         <tr>
                             <td><a style="color: white; font-weight: bold" href="CtrlDocumentoView?documento=${doc.nombre}">${doc.nombre}</a></td>
                             <td style="color: white; font-weight: bold">${doc.peso}</td>
+                            <td style="color: white; font-weight: bold">${doc.aparicionesToString()}</td>
+                            <td style="color: white; font-weight: bold">${doc.cantidadPalabras}</td>
                         </tr>
                     </c:forEach>
                         <tr>

@@ -41,7 +41,7 @@ public class Vocabulario implements Serializable
             {
                 aux.setMaxFrecuencia(t.getMaxFrecuencia());
             }
-            return;
+            t = aux;
         }
         this.vocabulario.put(t.getPalabra(), t);
     }
@@ -64,7 +64,8 @@ public class Vocabulario implements Serializable
             this.agregarTermino(t);
             
             //probando escribir en archivo .txt
-            pw.println(palabra + "," + archivo + "," + frecuencia);
+            pw.println(palabra + ";" + archivo + ";" + frecuencia + "\n");
+            pw.flush();
         }
         System.out.println(archivo);
     }

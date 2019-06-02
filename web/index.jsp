@@ -55,8 +55,8 @@
             try
             {
                 posteo.openConnection();
+                posteo.setConnectionMode(2);
                 posteo.loadData("C:\\\\NetBeansProjects\\\\DLC-MotorDeBusqueda\\\\posteo.txt", "palabraXDocumento");
-                System.out.println("Posteo cargado correctamente.");
             }
             catch (Exception ex2)
             {

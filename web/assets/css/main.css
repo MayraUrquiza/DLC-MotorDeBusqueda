@@ -537,14 +537,14 @@ input, select, textarea {
 		position: relative;
 		text-align: center;
 		top: -1em;
-		vertical-align: middle;
+		vertical-align: 30%;
 		width: 90%;
                 font-weight: bold;
 	}
 
 		#header h1 {
-			font-size: 4.35em;
-			font-weight: 900;
+			font-size: 3.5em;
+			font-weight: 600;
 			letter-spacing: -0.035em;
 			line-height: 1em;
 		}

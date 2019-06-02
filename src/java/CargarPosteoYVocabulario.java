@@ -39,9 +39,9 @@ public class CargarPosteoYVocabulario
     public static void main(String[] args) throws FileNotFoundException
     {           
         Vocabulario v;
-//        v = primeraCarga();
+        v = primeraCarga();
         v = recuperarVocabulario();
-        agregarDocumentoPosteo(v);
+//        agregarDocumentoPosteo(v);
         
 //        ArrayList<String> voc = v.obtenerVocabulario(v);
 //        for (String entrada : voc)
@@ -136,7 +136,7 @@ public class CargarPosteoYVocabulario
         {
             v = vr.read();
             JOptionPane.showMessageDialog(null, "Hashtable recuperada corretamente.");
-//            System.out.println(v.toString());
+            System.out.println(v.toString());
         }
         catch (VocabularioIOException ex)
         {

@@ -101,10 +101,10 @@ public class CtrlAgregarDoc extends HttpServlet {
 
     private void agregarDocumento(Vocabulario v, String ruta, String archivo)
     {
-        this.eliminar("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\posteo.txt");
+        this.eliminar("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\agregado.txt");
         try 
         {
-            v.agregarDocumento(ruta, archivo, "C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\posteo.txt");
+            v.agregarDocumento(ruta, archivo, "agregado.txt");
             Buscador buscador = new Buscador();
             buscador.setN(buscador.getN() + 1);
         } 
@@ -117,7 +117,7 @@ public class CtrlAgregarDoc extends HttpServlet {
         this.serializar(v);
 
         // Cargo el posteo del nuevo archivo en la base de datos
-        this.cargarPosteo("C:\\\\NetBeansProjects\\\\DLC-MotorDeBusqueda\\\\posteo.txt");
+        this.cargarPosteo("C:\\\\NetBeansProjects\\\\DLC-MotorDeBusqueda\\\\agregado.txt");
     }
     
     private void eliminar(String archivo)
