@@ -39,59 +39,11 @@ public class CargarPosteoYVocabulario
     public static void main(String[] args) throws FileNotFoundException
     {           
         Vocabulario v;
-        v = primeraCarga();
+//        v = primeraCarga();
         v = recuperarVocabulario();
+        calcularRadicandos(593, v);
+        
 //        agregarDocumentoPosteo(v);
-        
-//        ArrayList<String> voc = v.obtenerVocabulario(v);
-//        for (String entrada : voc)
-//        {
-//            System.out.println(entrada + "\n");
-//        }
-
-//        String cadena = " SELDOME stopes.";
-//        StringTokenizer st = new StringTokenizer(cadena, "\"’,.-_+&<>``={}~^@/()[]%'*$|°[0-1-2-3-4-5-6-7-8-9]#:*»«?¡!¿; \n");
-//        ArrayList<String> palabrasBuscadas = new ArrayList<>();
-//        while(st.hasMoreTokens())
-//        {
-//            String p = st.nextToken().toLowerCase();
-//            palabrasBuscadas.add(p);
-//        }
-//         ArrayList<Termino> terminos = Buscador.getResultados(palabrasBuscadas, v);
-//        for (Termino t : terminos)
-//        {
-//            System.out.println(t.getPalabra());
-//        }
-//        Buscador.agregarDocumentos();
-//        HashMap<String, Documento> documentos = Buscador.getDocumentos();
-//        ArrayList<String> docs = new ArrayList<>();
-//        ArrayList<Double> pesos = new ArrayList<>();
-//        for (String documento : documentos.keySet())
-//        {
-//            docs.add(documento);
-//            System.out.println(documento);
-//            pesos.add(documentos.get(documento).getPeso());
-//            System.out.println(documentos.get(documento).getPeso());
-//        }
-
-        
-//        BD posteo = new BD();
-//        long ti = System.currentTimeMillis();
-//        try 
-//        {
-//            posteo.openConnection();
-//            System.out.println("Cantidad de archivos: " + posteo.getCantidadDeDocumentos("palabraXDocumento"));
-//        } 
-//        catch (Exception ex) 
-//        {
-//            Logger.getLogger(CargarPosteoYVocabulario.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        finally
-//        {
-//            posteo.closeConnection();
-//        }
-//        long tf = System.currentTimeMillis() - ti;
-//        System.out.println("Tiempo total: " + tf/1000 + " segundos");
     }
     
     private static Vocabulario primeraCarga()
@@ -136,7 +88,7 @@ public class CargarPosteoYVocabulario
         {
             v = vr.read();
             JOptionPane.showMessageDialog(null, "Hashtable recuperada corretamente.");
-            System.out.println(v.toString());
+//            System.out.println(v.toString());
         }
         catch (VocabularioIOException ex)
         {
@@ -209,6 +161,49 @@ public class CargarPosteoYVocabulario
         catch (Exception ex) 
         {
             Logger.getLogger(CargarPosteoYVocabulario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            posteo.closeConnection();
+        }
+    }
+    
+    //Calcula para todos los documentos los radicandos para la fórmula del peso y los almacena en la tabla "Documento" de la base de datos
+    private static void calcularRadicandos(int N, Vocabulario v)
+    {
+        BD posteo = new BD();
+        posteo.setConnectionMode(1);
+        
+        FilenameFilter filter = new FilenameFilter() //filtro para archivos .txt
+        {
+            public boolean accept(File dir, String fileName)
+            {
+                return fileName.endsWith("txt");
+            }
+        };
+
+        File f = new File("C:\\NetBeansProjects\\DLC-MotorDeBusqueda\\DocumentosTP1");
+        String [] archivos = f.list(filter);
+        try
+        {
+            long ti = System.currentTimeMillis();
+            
+            posteo.openConnection();
+
+            for (int i = 0; i < archivos.length; i++)
+            {
+                double[] vector = posteo.calcularCociente(archivos[i], N, v);
+                double radicando = vector[0];
+                int cantPalabras = (int) vector[1];
+                posteo.insertData("Documento", archivos[i], radicando, cantPalabras);
+            }
+            
+            long tf = System.currentTimeMillis() - ti;
+            System.out.println("Tiempo total: " + tf/1000 + " segundos");
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
         }
         finally
         {

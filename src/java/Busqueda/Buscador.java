@@ -28,7 +28,7 @@ public class Buscador
    
     private final ArrayList<Termino> busqueda = new ArrayList<>();
     private int N = 593; // Cantidad total de documentos en la base
-    private int R = 10; // Cantidad de documentos que interesan
+    private int R = 15; // Cantidad de documentos que interesan
     private HashMap<String, Documento> documentos = new HashMap<>();
     private Vocabulario v;
     
@@ -84,7 +84,7 @@ public class Buscador
         return docs;
     }
     
-    //Reealiza la búsqueda de los R documentos más relevantes para la búsqueda
+    //Realiza la búsqueda de los R documentos más relevantes para la búsqueda
     public void agregarDocumentos()
     {
         this.ordenarPalabrasBuscadas(); //Ordena las palabras buscadas de acuerdo a su máxima frecuencia
@@ -140,6 +140,14 @@ public class Buscador
             try 
             {
                 posteo.openConnection();
+                
+                double[] vector = this.ajustarPeso(doc.getNombre());
+                double radicando = vector[0];
+                int cantPalabras = (int) vector[1];
+                
+                doc.agregarFactorDeAjustePeso(radicando);
+                doc.setCantidadPalabras(cantPalabras);
+
                 coincidencias = posteo.obtenerCoincidencias(busqueda, doc.getNombre());
                 for (String palabra : coincidencias)
                 {
@@ -166,7 +174,7 @@ public class Buscador
     private LinkedHashMap<String, Documento> ordenarPorRelevancia() 
     {
         this.agregarCoincidencias();
-        this.ajustarPeso();
+//        this.ajustarPeso();
                 
         List<Documento> mapValues = new ArrayList<>(documentos.values());
         Collections.sort(mapValues);
@@ -181,32 +189,53 @@ public class Buscador
         return sortedMap;
     }
     
-    private void ajustarPeso()
+//    private void ajustarPeso()
+//    {
+//        BD posteo = new BD();
+//        posteo.setConnectionMode(2);
+//        try
+//        {
+//            posteo.openConnection();
+//
+//            for (Documento d : documentos.values())
+//            {
+//                double[] vector = posteo.calcularCociente(d.getNombre(), N, v);
+//                double cociente = vector[0];
+//                d.agregarFactorDeAjustePeso(cociente);
+//                d.setCantidadPalabras((int) vector[1]);
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            System.err.println(ex.getMessage());
+//        }
+//        finally
+//        {
+//            posteo.closeConnection();
+//        }
+//    }
+
+    private double[] ajustarPeso(String documento)
     {
         BD posteo = new BD();
-        posteo.setConnectionMode(2);
+        posteo.setConnectionMode(1);
+        double[] vector = new double[2]; 
+        vector[0] = 0.0;
+        vector[1] = 0.0;
         try
         {
             posteo.openConnection();
-
-            for (Documento d : documentos.values())
-            {
-                double[] vector = posteo.calcularCociente(d.getNombre(), N, v);
-                double cociente = vector[0];
-                d.agregarFactorDeAjustePeso(cociente);
-                d.setCantidadPalabras((int) vector[1]);
-            }
+            posteo.obtenerDatosDocumento(documento);
+            vector = posteo.calcularCociente(documento, N, v);
         }
         catch (Exception ex)
         {
+            System.out.println("No se pudieron ajustar los pesos.");
             System.err.println(ex.getMessage());
         }
-        finally
-        {
-            posteo.closeConnection();
-        }
+        return vector;
     }
-
+    
     public int getN() 
     {
         return N;

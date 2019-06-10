@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/src/java/Controlador/CtrlBusqueda.java</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/web/resultados.jsp</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/src/java/Vocabulario/Termino.java</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/web/assets/css/main.css</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/src/java/CargarPosteoYVocabulario.java</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/src/java/Vocabulario/Vocabulario.java</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/src/java/Busqueda/Documento.java</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/web/index.jsp</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/src/java/BD/BD.java</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/web/principal.jsp</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/web/agregar.jsp</file>
-            <file>file:/C:/NetBeansProjects/DLC-MotorDeBusqueda/src/java/Busqueda/Buscador.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

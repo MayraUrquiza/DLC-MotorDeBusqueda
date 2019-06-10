@@ -150,6 +150,22 @@ public class BD
         }
     }
     
+    public void insertData(String tabla, String documento, double radicando, int palabras)
+    {
+        try
+        {
+            String query = "INSERT INTO " + tabla + " (Nombre, Radicando, Palabras) VALUES ('" + documento + "', " + radicando + ", " + palabras + ")";
+            stmt = cn.createStatement();
+            stmt.executeUpdate(query);
+            System.out.println("Se cargaron los datos de los documentos en la base de datos.");
+        }
+        catch (Exception ex)
+        {
+            System.out.println("No se pudieron cargar los datos de los documentos en la base de datos.");
+            System.err.println(ex.getMessage());       
+        }
+    }
+    
     public void loadData(String dataFile, String tabla)
     {
         try 
@@ -251,6 +267,35 @@ public class BD
             }
         }
         return coincidencias;
+    }
+    
+    //Busca el radicando y cantidad de palabras del documento pasado por parámetro 
+    //Radicando para usar como factor de ajuste del cálculo del peso
+    //Cantidad de palabras para mostrar en los resultados de la búsqueda
+    public double[] obtenerDatosDocumento(String documento)
+    {
+        double cociente = 0.0;
+        int palabras = 0;
+        try
+        {
+            String query = "SELECT Radicando, Palabras FROM Documento WHERE Nombre = '" + documento + "'";
+            stmt = cn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next())
+            {
+                palabras = rs.getInt("Palabras");
+                cociente = rs.getDouble("Radicando");
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+        double[] vector = new double[2]; 
+        vector[0] = cociente;
+        vector[1] = palabras;
+        return vector;
     }
     
     public int getCantidadDeDocumentos(String tabla)
